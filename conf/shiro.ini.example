@@ -1,0 +1,68 @@
+[users]
+# List of users with their password allowed to access Zeppelin.
+# To use a different strategy (LDAP / Database / ...) check the shiro doc at http://shiro.apache.org/configuration.html#Configuration-INISections
+#admin = password1, admin
+#admin = password1, admin
+#user1 = password2, role1, role2
+#user2 = password3, role3
+#user3 = password4, role2
+
+[main]
+
+hashService = org.apache.shiro.crypto.hash.DefaultHashService
+hashService.hashIterations = 1024
+hashService.hashAlgorithmName = SHA-256
+hashService.generatePublicSalt = true
+passwordMatcher = org.apache.shiro.authc.credential.PasswordMatcher
+
+passwordService = org.apache.shiro.authc.credential.DefaultPasswordService
+passwordService.hashService = $hashService
+passwordMatcher.passwordService = $passwordService
+
+jdbcRealm=org.apache.shiro.realm.jdbc.JdbcRealm
+
+
+# Configure JDBC realm datasource.
+dataSource = org.postgresql.ds.PGPoolingDataSource
+dataSource.serverName = localhost
+dataSource.portNumber = 5432
+dataSource.databaseName = dbname
+dataSource.user = username
+dataSource.password = password
+jdbcRealm.dataSource = $dataSource
+
+# queries to use geonetwork users table for authentication and hopefully roles
+jdbcRealm.authenticationQuery = SELECT password FROM users WHERE username = ?
+jdbcRealm.userRolesQuery = select username, case when profile = 'Administrator' then 'admin' else 'readonly' end as role from users WHERE username = ?
+
+jdbcRealm.credentialsMatcher = $passwordMatcher
+
+sessionManager = org.apache.shiro.web.session.mgt.DefaultWebSessionManager
+
+### If caching of user is required then uncomment below lines
+cacheManager = org.apache.shiro.cache.MemoryConstrainedCacheManager
+securityManager.cacheManager = $cacheManager
+
+securityManager.sessionManager = $sessionManager
+# 86,400,000 milliseconds = 24 hour
+securityManager.sessionManager.globalSessionTimeout = 86400000
+shiro.loginUrl = /api/login
+
+securityManager.realm = $jdbcRealm
+
+[urls]
+/api/version = anon
+#/api/interpreter/** = authc, roles[admin]
+#/api/configurations/** = authc, roles[admin]
+#/api/credential/** = authc, roles[admin]
+#/** = anon
+/** = authc
+
+[roles]
+readonly = *
+#role1 = *
+#role2 = *
+#role3 = *
+admin = *
+
+
