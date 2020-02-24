@@ -6,10 +6,10 @@ Designed to allow you to log in to Apache Zeppelin with the usernames and passwo
 
 ### Prerequisites
 
-* Apache Zeppelin (0.73 works for us)
-* PostgreSQL driver from [https://mvnrepository.com/artifact/org.postgresql/postgresql/42.1.4](https://mvnrepository.com/artifact/org.postgresql/postgresql/42.1.4) copied into Zeppelin's `lib` folder
-* Geonetwork 3.2.x (not tested on 3.0.x or 3.4.x) with data stored in PostgreSQL
-* Apache Maven (for building jar file wit dependencies)
+* Apache Zeppelin (0.8.2 is known to work)
+* PostgreSQL driver jar file from [https://mvnrepository.com/artifact/org.postgresql/postgresql/42.1.10](https://mvnrepository.com/artifact/org.postgresql/postgresql/42.1.10) copied into Zeppelin's `lib` folder
+* Geonetwork 3.8.x (3.4.x or upwards should work) with geonetwork database stored in PostgreSQL
+* Apache Maven (for building jar file with dependencies)
 
 ### Instructions
 
