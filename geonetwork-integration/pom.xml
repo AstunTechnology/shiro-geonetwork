@@ -26,7 +26,7 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-crypto-hash</artifactId>
-            <version>1.4.0</version>
+            <version>1.8.0</version>
             <scope>provided</scope>
         </dependency>
 
